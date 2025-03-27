@@ -17,6 +17,7 @@ public class Patient {
       this.DOB = DOB;
       this.address = address;
       this.phoneNumber = phoneNumber;
+      this.appointments = new ArrayList<>();
 
     }
 

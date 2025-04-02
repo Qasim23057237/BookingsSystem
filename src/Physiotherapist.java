@@ -58,6 +58,21 @@ public class Physiotherapist {
         LocalDate date = LocalDate.parse(Date,DateTimeFormatter.ISO_LOCAL_DATE);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy");
 
+        boolean hasexpertise = false;
+
+        for (String expertise : Expertise) {
+            if (expertise.equalsIgnoreCase(Treatment_name)) {
+                hasexpertise = true;
+                break;
+            }
+
+
+        }
+        if (!hasexpertise) {
+            System.out.println("There is no Expertise for " + Treatment_name);
+            return;
+        }
+
         for (int week=0; week<4; week++) {
             LocalDate day_slot = date.plusWeeks(week);
             String slot = "WEEK " + (week + 1 ) + ": " + day_slot.format(formatter) + ", " + Time_slot + ", " + Treatment_name;

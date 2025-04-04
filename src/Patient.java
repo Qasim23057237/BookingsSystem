@@ -58,6 +58,10 @@ public class Patient {
                 "Phone Number : " + phoneNumber + "\n";
   }
 
+  public List<Appointment> getAppointments() {
+        return appointments;
+  }
+
   public static void main (String[] args) {
         Patient p1 = new Patient("Qasim" , "12-MAY-1998" , "123" , "0293939");
          Patient p2 = new Patient("Qasim" , "12-MAY-1998" , "123" , "0293939");

@@ -36,7 +36,7 @@ public class BookingSystem {
             System.out.println("1. Add Patient");
             System.out.println("2. Remove Patient");
             System.out.println("3. Booking Appointment");
-            System.out.println("4. Change or Canel Appointment");
+            System.out.println("4. Change or Cancel Appointment");
             System.out.println("5. Attend Appointment");
             System.out.println("6. Print Appointment");
             System.out.println("0. Exit");
@@ -60,6 +60,9 @@ public class BookingSystem {
 
                    case 3:
                        bookappointment(scanner);
+                       break;
+                       case 4:
+                           changeorCancelappointment(scanner);
             }
 
         }
@@ -217,5 +220,52 @@ public class BookingSystem {
 
 
     }
+
+     private static void changeorCancelappointment(Scanner scanner) {
+        System.out.println("Exisiting Appointments");
+        for(Patient patient : patientList) {
+            for (Appointment appointment : patient.getAppointments()) {
+                System.out.println(appointment.getDetails());
+                System.out.println("---------------------");
+            }
+        }
+        System.out.println("Please Enter the booking ID to Cancel Appointment or Change Appointment");
+        int bookingID = Integer.parseInt(scanner.nextLine());
+        Appointment selectedappointment = null;
+        for(Patient patient : patientList) {
+            for (Appointment appointment : patient.getAppointments()) {
+                if(appointment.bookingId == bookingID) {
+                    selectedappointment = appointment;
+                    break;
+                }
+            }
+            if(selectedappointment != null) {
+                break;
+            }
+
+        }
+        if (selectedappointment == null) {
+            System.out.println("Appointment not found");
+            return;
+        }
+        System.out.println("Appointment Found:");
+        System.out.println(selectedappointment.getDetails());
+        System.out.println("Select an option");
+        System.out.println("1. Change appointment");
+        System.out.println("2. Cancel appointment");
+        int selectedoption = Integer.parseInt(scanner.nextLine());
+        if (selectedoption == 1) {
+            selectedappointment.setStatus("Canceled");
+            System.out.println("Appointment Canceled Please book a new appointment");
+            bookappointment(scanner);
+        }
+        else if (selectedoption == 2) {
+            selectedappointment.setStatus("Canceled");
+            System.out.println("Appointment Canceled");
+        }
+        else {
+            System.out.println("Invalid Option");
+        }
+     }
 
 }

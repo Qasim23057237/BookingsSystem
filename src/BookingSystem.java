@@ -63,6 +63,11 @@ public class BookingSystem {
                        break;
                        case 4:
                            changeorCancelappointment(scanner);
+                           break;
+                           case 5:
+                               attendAppointment(scanner);
+                               break;
+
             }
 
         }
@@ -267,5 +272,37 @@ public class BookingSystem {
             System.out.println("Invalid Option");
         }
      }
+     private static void attendAppointment(Scanner scanner) {
+        for(Patient patient : patientList) {
+            for (Appointment appointment : patient.getAppointments()) {
+               if(appointment.getAppointmentStatus().equalsIgnoreCase("booked"))
+               {
+                   System.out.println(appointment.getDetails());
+                   System.out.println("--------------------");
+               }
 
+            }
+        }
+        System.out.println("Please Enter the booking ID to Mark as attended Confirmation");
+        int bookingID = Integer.parseInt(scanner.nextLine());
+        Appointment selectedappointment = null;
+        for(Patient patient : patientList) {
+            for (Appointment appointment : patient.getAppointments()) {
+                if(appointment.bookingId == bookingID) {
+                    selectedappointment = appointment;
+                    break;
+                }
+            }
+            
+
+        }
+         if(selectedappointment == null) {
+             System.out.println("Appointment not found");
+         }
+         else {
+             selectedappointment.setStatus("Attended");
+             System.out.println("Appointment marked as attended");
+         }
+
+     }
 }

@@ -305,4 +305,47 @@ public class BookingSystem {
          }
 
      }
+
+     private static void printReport(Scanner scanner) {
+        for (Physiotherapist physiotherapist : physiotherapistList) {
+            System.out.println("Physiotherapist:" +  physiotherapist.getPhysiotherapist_name());
+            boolean have_appointments = false;
+            for(Patient patient : patientList) {
+                for (Appointment appointment : patient.getAppointments()) {
+                    if(appointment.getPhysiotherapist().getPhysiotherapist_id() == physiotherapist.getPhysiotherapist_id()) {
+                        System.out.println(appointment.getDetails());
+                        have_appointments = true;
+                    }
+                }
+            }
+            if(!have_appointments) {
+                System.out.println("No appointments found for this physiotherapist");
+            }
+            System.out.println("---------------------------------------------------");
+        }
+        SortPhysiotherapist();
+     }
+
+     private static void SortPhysiotherapist() {
+        List<Physiotherapist> sortedPhysiotherapistList = new ArrayList<>(physiotherapistList);
+        sortedPhysiotherapistList.sort((p1, p2) -> Integer.compare(countAttendendAppointments(p2), countAttendendAppointments(p1)));
+        System.out.println("------ Physiotherapist List by  Attended Appointment ------");
+        for (Physiotherapist p : sortedPhysiotherapistList) {
+            System.out.println("Physiotherapist : " +  p.getPhysiotherapist_name() + "- Attended: " + countAttendendAppointments(p));
+        }
+     }
+
+     private static int countAttendendAppointments(Physiotherapist physiotherapist)
+     {
+         int count = 0;
+         for(Patient patient : patientList) {
+             for (Appointment appointment : patient.getAppointments()) {
+                 if(appointment.getPhysiotherapist().getPhysiotherapist_id() == physiotherapist.getPhysiotherapist_id() && appointment.getAppointmentStatus().equalsIgnoreCase("Attended")) {
+                     count++;
+                 }
+             }
+         }
+         return count;
+
+     }
 }

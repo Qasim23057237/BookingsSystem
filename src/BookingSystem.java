@@ -15,7 +15,7 @@ public class BookingSystem {
 
     }
 
-    private static void InitializeData()
+    public static void InitializeData()
     {
         //HARDCODED PHYSIOTHERAPISTS AT THE START OF THE PROJECT
         Physiotherapist p1 = new Physiotherapist("Dr Qasim" , "AL10 9WX" , "+4423909182");
@@ -67,6 +67,15 @@ public class BookingSystem {
                            case 5:
                                attendAppointment(scanner);
                                break;
+                               case 6:
+                                   printReport(scanner);
+                                   break;
+                                   case 0:
+                                       System.out.println("Goodbye!");
+                                       return;
+                                       default:
+                                           System.out.println("Please enter a valid choice");
+
 
             }
 
@@ -347,5 +356,13 @@ public class BookingSystem {
          }
          return count;
 
+     }
+
+     public static List<Patient> getPatientList() {
+        return patientList;
+     }
+
+     public static List<Physiotherapist> getPhysiotherapistList() {
+        return physiotherapistList;
      }
 }

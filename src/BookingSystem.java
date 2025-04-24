@@ -17,12 +17,52 @@ public class BookingSystem {
 
     public static void InitializeData()
     {
+        //HARDCODED PATIENTS  AT THE START OF THE PROJECT
+
+        Patient patientone = new Patient("Qasim" , "12/05/1998" , "AL10 9WX", "+44887289392");
+        Patient patienttwo = new Patient("Ali" , "12/05/1998" , "AL10 9WX", "+44887289392");
+        Patient patientthree = new Patient("Hassan" , "12/05/1998" , "AL10 9WX", "+44887289392");
+        Patient patientfour= new Patient("Zaid" , "12/05/1998" , "AL10 9WX", "+44887289392");
+        Patient patientfive= new Patient("Juniad" , "12/05/1998" , "AL10 9WX", "+44887289392");
+        Patient patientsix= new Patient("Iqbal" , "12/05/1998" , "AL10 9WX", "+44887289392");
+        Patient patientseven= new Patient("Ilyas" , "12/05/1998" , "AL10 9WX", "+44887289392");
+        Patient patienteight= new Patient("Shalom" , "12/05/1998" , "AL10 9WX", "+44887289392");
+        Patient patientnine= new Patient("Zubaim" , "12/05/1998" , "AL10 9WX", "+44887289392");
+        Patient patientten= new Patient("Naman" , "12/05/1998" , "AL10 9WX", "+44887289392");
+       patientList.add(patientone);
+       patientList.add(patienttwo);
+       patientList.add(patientthree);
+       patientList.add(patientfour);
+       patientList.add(patientfive);
+       patientList.add(patientsix);
+       patientList.add(patientseven);
+       patientList.add(patienteight);
+       patientList.add(patientnine);
+       patientList.add(patientten);
+
         //HARDCODED PHYSIOTHERAPISTS AT THE START OF THE PROJECT
         Physiotherapist p1 = new Physiotherapist("Dr Qasim" , "AL10 9WX" , "+4423909182");
+        p1.addexpertise("Physiotherapy");
+        p1.addTreatment("Physiotherapy", "Neural Mobilisation");
+        p1.addtimetable("Physiotherapy" ,"Neural Mobilisation", "2025-05-01" , "10:00-11:00");
 
-        p1.addExpertise("Message Therapy");
-        p1.addtimetable("Message Therapy" , "2025-05-01" , "10:00 - 11:00" );
+
+
         physiotherapistList.add(p1);
+
+        Physiotherapist p2 = new Physiotherapist("Dr Ali" , "AL10 9WW" , "+4423909182");
+        p2.addexpertise("Osteopathy");
+        p2.addTreatment("Osteopathy", "Acupuncture" );
+        p2.addtimetable("Osteopathy" , "Acupuncture" ,"2025-05-01", "10:00-11:00");
+        physiotherapistList.add(p2);
+
+        Physiotherapist p3 = new Physiotherapist("Dr Ayesha" , "AL10 9WZ" , "+4423909182");
+        p3.addexpertise("Rehabilitation");
+        p3.addTreatment("Rehabilitation", "Pool Rehabilitation");
+        p3.addtimetable("Rehabilitation" , "Pool Rehabilitation" , "2025-05-01" , "11:00-12:00" );
+        physiotherapistList.add(p3);
+
+
 
     }
 
@@ -86,12 +126,32 @@ public class BookingSystem {
     {
         System.out.println("Enter Patient Name");
         String name = scanner.nextLine();
-        System.out.println("Enter Patient DOB eg (DD/MM/YYYY)");
+        System.out.println("Enter Patient DOB Format (DD/MM/YYYY)");
         String dob = scanner.nextLine();
         System.out.println("Enter Patient Address");
         String address = scanner.nextLine();
         System.out.println("Enter Patient Phone Number");
         String phone = scanner.nextLine();
+        if(!phone.matches("^((\\+44\\s?7\\d{9})|(07\\d{9}))$"))
+        {
+            System.out.println("Please enter a valid Uk phone number");
+            return;
+        }
+        if(!dob.matches("^\\d{2}/\\d{2}/\\d{4}$"))
+        {
+            System.out.println("Please follow Date of Birth format");
+            return;
+        }
+        for (Patient patient : patientList) {
+            if(patient.getPhoneNumber().equals(phone))
+            {
+                System.out.println("Patient Already Exists with this phone number");
+                return;
+            }
+        }
+
+
+
         patientList.add(new Patient(name, dob, address, phone));
         System.out.println("Patient Added");
 
@@ -125,6 +185,10 @@ public class BookingSystem {
     private static void bookappointment(Scanner scanner)
     {
         System.out.println("Booking Appointment");
+        System.out.println("All Patients");
+        for (Patient patient : patientList) {
+            System.out.println("Patient ID:" + " " + patient.getPatientID() + " " + "Patient Name: " + patient.getPatientName());
+        }
         System.out.println("Enter Patient Id to Book");
         int id = Integer.parseInt(scanner.nextLine());
         Patient selectedpatient = null;
@@ -141,10 +205,23 @@ public class BookingSystem {
         System.out.println("Look Appointment By");
         System.out.println("1. Expertise");
         System.out.println("2. Physiotherapist Name");
+        System.out.print("Enter a choice: ");
         int choice = Integer.parseInt(scanner.nextLine());
         List <Physiotherapist> allmatchingphysiotherapists= new ArrayList<>();
+        List<String> AllExpertise = new ArrayList<>();
         if (choice == 1) {
-            System.out.println("Enter Expertise");
+            for(Physiotherapist p : physiotherapistList) {
+                for(String exp : p.getExpertise()) {
+                    if(!AllExpertise.contains(exp)) {
+                        AllExpertise.add(exp);
+
+                    }
+                }
+            }
+            for(int i = 0; i < AllExpertise.size(); i++) {
+                System.out.println((i + 1)+ ". " + AllExpertise.get(i));
+            }
+            System.out.println("Enter Expertise : ");
             String expertise = scanner.nextLine();
             for (Physiotherapist p : physiotherapistList) {
                for (String Exp : p.getExpertise()) {
@@ -156,7 +233,7 @@ public class BookingSystem {
             }
         }
         else if (choice == 2) {
-            System.out.println("Enter Physiotherapist Name");
+            System.out.println("Enter Physiotherapist Name : ");
             String physiotherapistName = scanner.nextLine();
             for (Physiotherapist p : physiotherapistList) {
                 if(p.getPhysiotherapist_name().equalsIgnoreCase(physiotherapistName))
@@ -176,7 +253,7 @@ public class BookingSystem {
         }
         System.out.println("Matching Physiotherapists");
         for (Physiotherapist p : allmatchingphysiotherapists) {
-            System.out.println("Physiotherapist ID" + p.getPhysiotherapist_id() +"Physiotherapist Name: " + p.getPhysiotherapist_name());
+            System.out.println("Physiotherapist ID"+ " " + p.getPhysiotherapist_id() +"Physiotherapist Name: " + p.getPhysiotherapist_name());
         }
         System.out.println("Enter Physiotherapist ID to Book");
         int selectedphysiotherapistID = Integer.parseInt(scanner.nextLine());
@@ -193,25 +270,61 @@ public class BookingSystem {
             System.out.println("Physiotherapist not found");
             return;
         }
-        List<String> available_slots = selectedphysiotherapist.getTimeTable();
-        if (available_slots.isEmpty()) {
-            System.out.println("no Available Slots");
-            return;
+
+        List<String> FilteredList = new ArrayList<>();
+        for(String slot : selectedphysiotherapist.getTimeTable())
+        {
+            boolean booked = false;
+            for (Patient patient : patientList) {
+                for(Appointment a : patient.getAppointments()) {
+                    if(a.getPhysiotherapist().getPhysiotherapist_id() == selectedphysiotherapistID
+                            && a.getTreatmentDate().equalsIgnoreCase(slot)
+                            &&  a.getAppointmentStatus().equalsIgnoreCase("booked"))
+                    {
+                        booked = true;
+                        break;
+                    }
+                }
+                if(booked)
+                    break;
+
+            }
+            if(!booked)
+            {
+                FilteredList.add(slot);
+            }
         }
+        if (FilteredList.isEmpty()) {
+            System.out.println("no Available slots");
+            return;
+
+        }
+
+
+//        List<String> available_slots = selectedphysiotherapist.getTimeTable();
+//        if (available_slots.isEmpty()) {
+//            System.out.println("no Available Slots");
+//            return;
+//        }
         System.out.println("Available Slots");
-        for (int i = 0; i < available_slots.size(); i++) {
-            System.out.println((i + 1 ) +". " +available_slots.get(i));
+        for (int i = 0; i < FilteredList.size(); i++) {
+            System.out.println((i + 1 ) +". " +FilteredList.get(i));
         }
         System.out.println("Selected a Slot");
         int selectedslotID = Integer.parseInt(scanner.nextLine());
-        if (selectedslotID < 1  ||  selectedslotID > available_slots.size()) {
+        if (selectedslotID < 1  ||  selectedslotID > FilteredList.size()) {
             System.out.println("Invalid Slot ID");
             return;
         }
-        String SelectedSlot = available_slots.get(selectedslotID - 1);
+        String SelectedSlot = FilteredList.get(selectedslotID - 1);
+        String selected_date= SelectedSlot.split(",")[1].trim()+", " + SelectedSlot.split(",")[2].trim();
+        String selected_time = SelectedSlot.split(",")[1].trim();
         boolean bookingconflict = false;
         for(Appointment appointment : selectedpatient.getAppointments()) {
-            if(appointment.getTreatmentDate().equalsIgnoreCase(SelectedSlot)) {
+            String existingdate = appointment.getTreatmentDate().split(",")[1].trim()+", " + appointment.getTreatmentDate().split(",")[2].trim();
+            String existingtime = appointment.getTreatmentDate().split(",")[1].trim();
+
+            if(existingtime.equalsIgnoreCase(selected_time) && appointment.getAppointmentStatus().equalsIgnoreCase("booked")) {
                 bookingconflict = true;
                 break;
             }

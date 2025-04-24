@@ -1,19 +1,26 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.time.format.DateTimeFormatter;
 
 public class Physiotherapist {
 
-    public static  int next_physio_id = 1;
-    public int physiotherapist_id;
-    public String physiotherapist_name;
-    public String physiotherapist_address;
-    public String physiotherapist_phone;
+    private static  int next_physio_id = 1;
+    private final int physiotherapist_id;
+    private final String physiotherapist_name;
+    private final String physiotherapist_address;
+    private final String physiotherapist_phone;
 
-    public List<String> Expertise;
+    private final List<String> Expertise;
 
-    public List<String> TimeTable;
+    private final List<String> TimeTable;
+
+    public Map<String, List<String>> treatmentbyExepertise;
+
+
+
 
     public Physiotherapist(String Name , String Address, String Phone ) {
         physiotherapist_id = next_physio_id++;
@@ -22,6 +29,8 @@ public class Physiotherapist {
         this.physiotherapist_phone = Phone;
         this.Expertise = new ArrayList<>();
         this.TimeTable = new ArrayList<>();
+
+        this.treatmentbyExepertise = new HashMap<>();
 
     }
 
@@ -44,9 +53,31 @@ public class Physiotherapist {
         return TimeTable;
     }
 
-    public void addExpertise(String expertise) {
+    public void addexpertise(String expertise)
+    {
         Expertise.add(expertise);
+        treatmentbyExepertise.put(expertise, new ArrayList<>());
     }
+
+    public void addTreatment(String expertise, String TreatmentName)
+    {
+        List<String>    tList = treatmentbyExepertise.get(expertise);
+        if(tList == null)
+        {
+            System.out.println("No such expertise");
+            return;
+
+        }
+        tList.add(TreatmentName);
+
+    }
+
+
+
+
+//    public void addExpertise(String expertise) {
+//        Expertise.add(expertise);
+//    }
     public void addTreatment_slot (String Slot)
     {
         TimeTable.add(Slot);
@@ -54,29 +85,44 @@ public class Physiotherapist {
 
 
 
-    public void addtimetable(String Treatment_name ,  String Date , String Time_slot ) {
-        LocalDate date = LocalDate.parse(Date,DateTimeFormatter.ISO_LOCAL_DATE);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy");
+    public void addtimetable(String expertise, String treatmentName ,  String Date , String Time_slot ) {
 
-        boolean hasexpertise = false;
+        if(!treatmentbyExepertise.containsKey(expertise)) {
 
-        for (String expertise : Expertise) {
-            if (expertise.equalsIgnoreCase(Treatment_name)) {
-                hasexpertise = true;
-                break;
-            }
-
-
+            System.out.println("No such expertise");
+            return;
         }
-        if (!hasexpertise) {
-            System.out.println("There is no Expertise for " + Treatment_name);
+        if (!treatmentbyExepertise.get(expertise).contains(treatmentName)) {
+            System.out.println("No such treatment");
             return;
         }
 
+        LocalDate date = LocalDate.parse(Date,DateTimeFormatter.ISO_LOCAL_DATE);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy");
+
+//        boolean hasexpertise = false;
+//
+//        for (String expertise : Expertise) {
+//            if (expertise.equalsIgnoreCase(Treatment_name)) {
+//                hasexpertise = true;
+//                break;
+//            }
+//
+//
+//        }
+//        if (!hasexpertise) {
+//            System.out.println("There is no Expertise for " + Treatment_name);
+//            return;
+//        }
+
         for (int week=0; week<4; week++) {
             LocalDate day_slot = date.plusWeeks(week);
-            String slot = "WEEK " + (week + 1 ) + ": " + day_slot.format(formatter) + ", " + Time_slot + ", " + Treatment_name;
-            TimeTable.add(slot);
+            String slot = "WEEK " + (week + 1 ) + ": " + day_slot.format(formatter) + ", " + Time_slot + ", " + treatmentName;
+            if(!TimeTable.contains(slot)) {
+                TimeTable.add(slot);
+
+            }
+
         }
     }
     public String getDetails() {
@@ -96,21 +142,22 @@ public class Physiotherapist {
     }
 
 
-    public static void main(String[] args) {
-
-         Physiotherapist physio = new Physiotherapist("Dr. Smith", "123 Clinic Road", "0123456789");
-
-         // Add expertise areas
-         physio.addExpertise("Physiotherapy");
-         physio.addExpertise("Rehabilitation");
-         physio.addExpertise("Osteopathy");
-
-         // Generate a 4-week timetable for a treatment.
-         // Format: treatmentName, startDate in "yyyy-MM-dd", timeSlot.
-         physio.addtimetable("Massage Therapy", "2025-05-01", "10:00-11:00");
-
-         // Print out the physiotherapist details
-          System.out.println(physio.getDetails());
-     }
+//    public static void main(String[] args) {
+//
+//         Physiotherapist physio = new Physiotherapist("Dr. Smith", "123 Clinic Road", "0123456789");
+//
+//         // Add expertise areas
+//         physio.addexpertise("Physiotherapy");
+//         physio.addexpertise("Rehabilitation");
+//         physio.addexpertise("Osteopathy");
+//
+//         // Generate a 4-week timetable for a treatment.
+//         // Format: treatmentName, startDate in "yyyy-MM-dd", timeSlot.
+//         physio.addTreatment("Physiotherapy", "Massage therapy");
+//         physio.addtimetable("Physiotherapy", "Massage therapy" , "2025-05-01", "10:00 - 11:00");
+//
+//         // Print out the physiotherapist details
+//          System.out.println(physio.getDetails());
+//     }
 
 }

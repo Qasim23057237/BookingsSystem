@@ -19,7 +19,7 @@ public class BookingSystemTest {
     {
         BookingSystem.InitializeData();
         List<Physiotherapist> physiotherapistList = BookingSystem.getPhysiotherapistList();
-        assertEquals(1 , physiotherapistList.size());
+        assertEquals(3 , physiotherapistList.size());
         assertEquals("Dr Qasim" , physiotherapistList.get(0).getPhysiotherapist_name());
 
 

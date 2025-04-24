@@ -18,7 +18,7 @@ public class Appointment {
         this.appointmentStatus = "booked";
 
     }
-    private int getBookingId() {
+    public int getBookingId() {
         return bookingId;
 
     }
@@ -54,17 +54,17 @@ public class Appointment {
 
     }
 
-    public static void main (String[] args) {
-        Patient p = new Patient("qasim" , "2/2" , "al10 9wx" , "=440749332");
-        Physiotherapist p1 = new Physiotherapist("Dr ALi" , "AL" , "1029");
-        Appointment APP = new Appointment(p , p1 , "pjys" , "thursday");
-        System.out.println(APP.getDetails());
-
-        Patient pp = new Patient("qasim" , "2/2" , "al10 9wx" , "=440749332");
-        Physiotherapist p2 = new Physiotherapist("Dr ALi" , "AL" , "1029");
-        Appointment APPp = new Appointment(p , p1 , "pjys" , "thursday");
-        System.out.println(APPp.getDetails());
-    }
+//    public static void main (String[] args) {
+//        Patient p = new Patient("qasim" , "2/2" , "al10 9wx" , "=440749332");
+//        Physiotherapist p1 = new Physiotherapist("Dr ALi" , "AL" , "1029");
+//        Appointment APP = new Appointment(p , p1 , "pjys" , "thursday");
+//        System.out.println(APP.getDetails());
+//
+//        Patient pp = new Patient("qasim" , "2/2" , "al10 9wx" , "=440749332");
+//        Physiotherapist p2 = new Physiotherapist("Dr ALi" , "AL" , "1029");
+//        Appointment APPp = new Appointment(p , p1 , "pjys" , "thursday");
+//        System.out.println(APPp.getDetails());
+//    }
 
 
 }

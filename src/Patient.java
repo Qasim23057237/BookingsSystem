@@ -62,18 +62,18 @@ public class Patient {
         return appointments;
   }
 
-  public static void main (String[] args) {
-        Patient p1 = new Patient("Qasim" , "12-MAY-1998" , "123" , "0293939");
-         Patient p2 = new Patient("Qasim" , "12-MAY-1998" , "123" , "0293939");
-
-      List<Patient> patients = new ArrayList<>();
-        patients.add(p1);
-        patients.add(p2);
-        for(Patient p : patients) {
-            System.out.println(p.GetDetails());
-        }
-
-  }
+//  public static void main (String[] args) {
+//        Patient p1 = new Patient("Qasim" , "12-MAY-1998" , "123" , "0293939");
+//         Patient p2 = new Patient("Qasim" , "12-MAY-1998" , "123" , "0293939");
+//
+//      List<Patient> patients = new ArrayList<>();
+//        patients.add(p1);
+//        patients.add(p2);
+//        for(Patient p : patients) {
+//            System.out.println(p.GetDetails());
+//        }
+//
+//  }
 
 
 
